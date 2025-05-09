@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane 
+  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" 
+  xmlns:fx="http://javafx.com/fxml/1">
+  <top>
+    <VBox spacing="10.0" BorderPane.alignment="CENTER">
+      <children>
+        <Label text="Aplikasi Manajemen Data Siswa">
+          <font>
+            <Font name="System Bold" size="18.0"/>
+          </font>
+        </Label>
+        <GridPane hgap="10.0" vgap="5.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <children>
+            <Label text="NPM:"/>
+            <Label text="Nama:" GridPane.rowIndex="1"/>
+            <Label text="Nilai Tugas:" GridPane.rowIndex="2"/>
+            <Label text="Nilai UTS:" GridPane.rowIndex="3"/>
+            <Label text="Nilai UAS:" GridPane.rowIndex="4"/>
+            <TextField fx:id="npmField" GridPane.columnIndex="1"/>
+            <TextField fx:id="namaField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <TextField fx:id="nilaiTugasField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <TextField fx:id="nilaiUTSField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <TextField fx:id="nilaiUASField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+          </children>
+        </GridPane>
+        <HBox spacing="10.0">
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleAddStudent" prefWidth="120.0" text="Tambah Siswa"/>
+            <Button mnemonicParsing="false" onAction="#handleSortStudents" prefWidth="180.0" text="Urutkan (Nilai Akhir)"/>
+            <Button mnemonicParsing="false" onAction="#handleRefresh" prefWidth="120.0" text="Refresh"/>
+          </children>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+          <children>
+            <Label text="Cari:"/>
+            <TextField fx:id="searchField" prefWidth="300.0" promptText="Masukkan nama siswa"/>
+            <Button mnemonicParsing="false" onAction="#handleSearchStudent" text="Cari"/>
+          </children>
+        </HBox>
+      </children>
+      <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </padding>
+    </VBox>
+  </top>
+
+  <center>
+    <TableView fx:id="tableView" BorderPane.alignment="CENTER">
+      <columns>
+        <TableColumn fx:id="colNpm" prefWidth="100.0" text="NPM"/>
+        <TableColumn fx:id="colNama" prefWidth="200.0" text="Nama"/>
+        <TableColumn fx:id="colTugas" prefWidth="120.0" text="Nilai Tugas"/>
+        <TableColumn fx:id="colUTS" prefWidth="120.0" text="Nilai UTS"/>
+        <TableColumn fx:id="colUAS" prefWidth="120.0" text="Nilai UAS"/>
+        <TableColumn fx:id="colAkhir" prefWidth="120.0" text="Nilai Akhir"/>
+      </columns>
+      <BorderPane.margin>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </BorderPane.margin>
+    </TableView>
+  </center>
+
+  <bottom>
+    <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER">
+      <children>
+        <Label fx:id="totalLabel" text="Total Nilai Akhir: 0.0"/>
+        <Label fx:id="averageLabel" text="Rata-rata Nilai Akhir: 0.0"/>
+      </children>
+      <BorderPane.margin>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </BorderPane.margin>
+    </HBox>
+  </bottom>
+</BorderPane>
