@@ -19,23 +19,23 @@ public class StudentApp extends Application {
     public static class Student implements Comparable<Student> {
         private String npm;
         private String nama;
-        private double nilaiTugas;
-        private double nilaiUTS;
-        private double nilaiUAS;
+        private double nilaiAlgoritma;
+        private double nilaiSistemBasisData;
+        private double nilaiMetodeNumerik;
         private double nilaiAkhir;
         
-        public Student(String npm, String nama, double nilaiTugas, double nilaiUTS, double nilaiUAS) {
+        public Student(String npm, String nama, double nilaiAlgoritma, double nilaiSistemBasisData, double nilaiMetodeNumerik) {
             this.npm = npm;
             this.nama = nama;
-            this.nilaiTugas = nilaiTugas;
-            this.nilaiUTS = nilaiUTS;
-            this.nilaiUAS = nilaiUAS;
+            this.nilaiAlgoritma = nilaiAlgoritma;
+            this.nilaiSistemBasisData = nilaiSistemBasisData;
+            this.nilaiMetodeNumerik = nilaiMetodeNumerik;
             this.hitungNilaiAkhir();
         }
         
         private void hitungNilaiAkhir() {
-            // Rumus nilai akhir: 30% Tugas + 30% UTS + 40% UAS
-            this.nilaiAkhir = (0.3 * nilaiTugas) + (0.3 * nilaiUTS) + (0.4 * nilaiUAS);
+            // Rumus nilai akhir: rata-rata dari ketiga mata kuliah
+            this.nilaiAkhir = (nilaiAlgoritma + nilaiSistemBasisData + nilaiMetodeNumerik) / 3.0;
         }
         
         // Getter dan setter
@@ -55,30 +55,30 @@ public class StudentApp extends Application {
             this.nama = nama;
         }
         
-        public double getNilaiTugas() {
-            return nilaiTugas;
+        public double getNilaiAlgoritma() {
+            return nilaiAlgoritma;
         }
         
-        public void setNilaiTugas(double nilaiTugas) {
-            this.nilaiTugas = nilaiTugas;
+        public void setNilaiAlgoritma(double nilaiAlgoritma) {
+            this.nilaiAlgoritma = nilaiAlgoritma;
             hitungNilaiAkhir();
         }
         
-        public double getNilaiUTS() {
-            return nilaiUTS;
+        public double getNilaiSistemBasisData() {
+            return nilaiSistemBasisData;
         }
         
-        public void setNilaiUTS(double nilaiUTS) {
-            this.nilaiUTS = nilaiUTS;
+        public void setNilaiSistemBasisData(double nilaiSistemBasisData) {
+            this.nilaiSistemBasisData = nilaiSistemBasisData;
             hitungNilaiAkhir();
         }
         
-        public double getNilaiUAS() {
-            return nilaiUAS;
+        public double getNilaiMetodeNumerik() {
+            return nilaiMetodeNumerik;
         }
         
-        public void setNilaiUAS(double nilaiUAS) {
-            this.nilaiUAS = nilaiUAS;
+        public void setNilaiMetodeNumerik(double nilaiMetodeNumerik) {
+            this.nilaiMetodeNumerik = nilaiMetodeNumerik;
             hitungNilaiAkhir();
         }
         
@@ -88,12 +88,12 @@ public class StudentApp extends Application {
         
         @Override
         public String toString() {
-            return npm + "," + nama + "," + nilaiTugas + "," + nilaiUTS + "," + 
-                   nilaiUAS + "," + String.format("%.2f", nilaiAkhir);
+            return npm + "," + nama + "," + nilaiAlgoritma + "," + nilaiSistemBasisData + "," + 
+                   nilaiMetodeNumerik + "," + String.format("%.2f", nilaiAkhir);
         }
         
         public String toFileString() {
-            return npm + "," + nama + "," + nilaiTugas + "," + nilaiUTS + "," + nilaiUAS;
+            return npm + "," + nama + "," + nilaiAlgoritma + "," + nilaiSistemBasisData + "," + nilaiMetodeNumerik;
         }
         
         @Override
@@ -135,11 +135,11 @@ public class StudentApp extends Application {
                         if (data.length >= 5) {
                             String npm = data[0].trim();
                             String nama = data[1].trim();
-                            double nilaiTugas = Double.parseDouble(data[2].trim());
-                            double nilaiUTS = Double.parseDouble(data[3].trim());
-                            double nilaiUAS = Double.parseDouble(data[4].trim());
+                            double nilaiAlgoritma = Double.parseDouble(data[2].trim());
+                            double nilaiSistemBasisData = Double.parseDouble(data[3].trim());
+                            double nilaiMetodeNumerik = Double.parseDouble(data[4].trim());
                             
-                            students.add(new Student(npm, nama, nilaiTugas, nilaiUTS, nilaiUAS));
+                            students.add(new Student(npm, nama, nilaiAlgoritma, nilaiSistemBasisData, nilaiMetodeNumerik));
                         }
                     }
                 }
@@ -169,7 +169,7 @@ public class StudentApp extends Application {
         }
         
         public void sortStudentsByFinalGrade() {
-            Collections.sort(students);
+            students.sort(Comparator.comparing(Student::getNilaiAkhir).reversed());
         }
         
         public Student searchStudentByName(String name) {
@@ -227,16 +227,16 @@ public class StudentApp extends Application {
     @FXML private TableView<Student> tableView;
     @FXML private TableColumn<Student, String> colNpm;
     @FXML private TableColumn<Student, String> colNama;
-    @FXML private TableColumn<Student, Double> colTugas;
-    @FXML private TableColumn<Student, Double> colUTS;
-    @FXML private TableColumn<Student, Double> colUAS;
+    @FXML private TableColumn<Student, Double> colAlgoritma;
+    @FXML private TableColumn<Student, Double> colSistemBasisData;
+    @FXML private TableColumn<Student, Double> colMetodeNumerik;
     @FXML private TableColumn<Student, Double> colAkhir;
     
     @FXML private TextField npmField;
     @FXML private TextField namaField;
-    @FXML private TextField nilaiTugasField;
-    @FXML private TextField nilaiUTSField;
-    @FXML private TextField nilaiUASField;
+    @FXML private TextField nilaiAlgoritmaField;
+    @FXML private TextField nilaiSistemBasisDataField;
+    @FXML private TextField nilaiMetodeNumerikField;
     @FXML private TextField searchField;
     @FXML private Label totalLabel;
     @FXML private Label averageLabel;
@@ -268,9 +268,9 @@ public class StudentApp extends Application {
         // Setup table columns
         colNpm.setCellValueFactory(new PropertyValueFactory<>("npm"));
         colNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        colTugas.setCellValueFactory(new PropertyValueFactory<>("nilaiTugas"));
-        colUTS.setCellValueFactory(new PropertyValueFactory<>("nilaiUTS"));
-        colUAS.setCellValueFactory(new PropertyValueFactory<>("nilaiUAS"));
+        colAlgoritma.setCellValueFactory(new PropertyValueFactory<>("nilaiAlgoritma"));
+        colSistemBasisData.setCellValueFactory(new PropertyValueFactory<>("nilaiSistemBasisData"));
+        colMetodeNumerik.setCellValueFactory(new PropertyValueFactory<>("nilaiMetodeNumerik"));
         colAkhir.setCellValueFactory(new PropertyValueFactory<>("nilaiAkhir"));
         
         // Set table data
@@ -286,23 +286,23 @@ public class StudentApp extends Application {
         try {
             String npm = npmField.getText().trim();
             String nama = namaField.getText().trim();
-            double nilaiTugas = Double.parseDouble(nilaiTugasField.getText().trim());
-            double nilaiUTS = Double.parseDouble(nilaiUTSField.getText().trim());
-            double nilaiUAS = Double.parseDouble(nilaiUASField.getText().trim());
+            double nilaiAlgoritma = Double.parseDouble(nilaiAlgoritmaField.getText().trim());
+            double nilaiSistemBasisData = Double.parseDouble(nilaiSistemBasisDataField.getText().trim());
+            double nilaiMetodeNumerik = Double.parseDouble(nilaiMetodeNumerikField.getText().trim());
             
             if (npm.isEmpty() || nama.isEmpty()) {
                 showAlert("Error", "NPM dan Nama harus diisi!");
                 return;
             }
             
-            if (nilaiTugas < 0 || nilaiTugas > 100 || 
-                nilaiUTS < 0 || nilaiUTS > 100 || 
-                nilaiUAS < 0 || nilaiUAS > 100) {
+            if (nilaiAlgoritma < 0 || nilaiAlgoritma > 100 || 
+                nilaiSistemBasisData < 0 || nilaiSistemBasisData > 100 || 
+                nilaiMetodeNumerik < 0 || nilaiMetodeNumerik > 100) {
                 showAlert("Error", "Nilai harus di antara 0 dan 100!");
                 return;
             }
             
-            Student newStudent = new Student(npm, nama, nilaiTugas, nilaiUTS, nilaiUAS);
+            Student newStudent = new Student(npm, nama, nilaiAlgoritma, nilaiSistemBasisData, nilaiMetodeNumerik);
             studentManager.addStudent(newStudent);
             
             clearInputFields();
@@ -371,9 +371,9 @@ public class StudentApp extends Application {
     private void clearInputFields() {
         npmField.clear();
         namaField.clear();
-        nilaiTugasField.clear();
-        nilaiUTSField.clear();
-        nilaiUASField.clear();
+        nilaiAlgoritmaField.clear();
+        nilaiSistemBasisDataField.clear();
+        nilaiMetodeNumerikField.clear();
     }
     
     private void showAlert(String title, String content) {
